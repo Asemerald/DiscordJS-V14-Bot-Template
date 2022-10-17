@@ -12,7 +12,7 @@ module.exports = {
         const joinedAgoCalculator = {
             fetch: {
                 user(userInput, type) {
-                    if (!userInput) throw new ReferenceError('You didn\'t provided the user to calculate.');
+                    if (!userInput) throw new ReferenceError('Selectionne un utilisateur boloss');
 
                     if (type === "discord") {
                         const joinedDiscordTimestampInNumber = new Date().getTime() - userInput.createdTimestamp;
@@ -31,8 +31,8 @@ module.exports = {
 
         // Bot type handler:
         const bot = {
-            true: "Yes",
-            false: "No"
+            true: "Oui",
+            false: "Non"
         };
 
         // Acknowledgements handler:
@@ -63,7 +63,7 @@ module.exports = {
             {
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`${user.user.tag}'s information:`)
+                        .setTitle('Voici les infos de ' + `${user.nickname ? user.nickname : user.user.username}`)
                         .setThumbnail(user.displayAvatarURL(
                             {
                                 dynamic: true
@@ -71,37 +71,37 @@ module.exports = {
                         ))
                         .addFields(
                             {
-                                name: "Full name",
+                                name: "Nom complet",
                                 value: `${user.user.tag}`,
                                 inline: true
                             },
                             {
-                                name: "Identification",
+                                name: "Id Discord",
                                 value: `\`${user.id}\``,
                                 inline: true
                             },
                             {
                                 name: `Roles [${user.roles.cache.size - 1}]`, // Use "-1" because we removed the "@everyone" role 
-                                value: `${user.roles.cache.map((ROLE) => ROLE).join(' ').replace('@everyone', '') || "[No Roles]"}`,
+                                value: `${user.roles.cache.map((ROLE) => ROLE).join(' ').replace('@everyone', '') || "[Sans roles miskine]"}`,
                                 inline: true
                             },
                             {
-                                name: "Joined server at",
+                                name: "A rejoins le serv le",
                                 value: `${new Date(user.joinedTimestamp).toLocaleString()}\n(${joinedAgoCalculator.fetch.user(user, "server")})`,
                                 inline: true
                             },
                             {
-                                name: "Joined Discord at",
+                                name: "A rejoins Discord le",
                                 value: `${new Date(user.user.createdTimestamp).toLocaleString()}\n(${joinedAgoCalculator.fetch.user(user, "discord")})`,
                                 inline: true
                             },
                             {
-                                name: "A Bot?",
+                                name: "C'est un bot ?",
                                 value: `${bot[user.user.bot]}`,
                                 inline: true
                             },
                             {
-                                name: "Acknowledgements",
+                                name: "Role dans le serv",
                                 value: `${acknowledgements.fetch.user(user)}`
                             }
                         )

@@ -12,7 +12,7 @@ module.exports = {
             {
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`${user.user.tag}'s avatar:`)
+                        .setTitle(`Avatar de ${user.user.tag}`)
                         .setImage(user.displayAvatarURL(
                             {
                                 dynamic: true

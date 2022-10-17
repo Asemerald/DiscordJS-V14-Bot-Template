@@ -21,8 +21,8 @@ const client = new Client({
   ],
   presence: {
     activities: [{
-      name: "T.F.A is cool!",
-      type: 0
+      name: "Les memes c'est la vie",
+      type: 0,
     }],
     status: 'dnd'
   }
