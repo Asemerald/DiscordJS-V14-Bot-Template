@@ -1,0 +1,8 @@
+{
+    
+        "name": "drake",
+        "description": "Fait un meme avec Drake le boss",
+        "value": "181913649",
+        "type": "ApplicationCommandOptionType.Subcommand"
+    
+}
