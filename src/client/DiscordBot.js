@@ -52,7 +52,26 @@ class DiscordBot extends Client {
                 }]
             }
         });
-        
+
+        // Load custom status messages from the database, if any
+        try {
+            const storedStatuses = this.database.get('status_messages');
+            if (Array.isArray(storedStatuses) && storedStatuses.length > 0) {
+                this.statusMessages = storedStatuses.map((entry) => {
+                    if (typeof entry === 'string') {
+                        return { name: entry, type: 4 };
+                    }
+                    if (entry && typeof entry.name === 'string') {
+                        return { name: entry.name, type: entry.type ?? 4 };
+                    }
+                    return null;
+                }).filter(Boolean);
+            }
+        } catch (err) {
+            warn('Failed to load status messages from database.');
+            error(err);
+        }
+
         new CommandsListener(this);
         new ComponentsListener(this);
     }

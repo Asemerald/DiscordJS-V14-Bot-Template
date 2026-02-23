@@ -66,6 +66,16 @@ module.exports = new Event({
                     console.warn(`[Role Addition] Role ID not found: ${ROLE_TO_ADD_ID}`);
                 }
 
+                // Increment mute count for the punished user in the database
+                const muteKey = 'mute_counts';
+                const muteCounts = db.get(muteKey) || {};
+                muteCounts[member.id] = (muteCounts[member.id] || 0) + 1;
+                db.set(muteKey, muteCounts);
+
+                // Send a message in the channel saying the user has been punished and by who 
+                const channel = reaction.message.channel;
+                await channel.send(`${member.user.tag} a été puni par ${user.tag} pour avoir reçu 5 réactions ${X_EMOJI} sur son message.`);
+
                 // After 2 minutes, reverse the roles
                 setTimeout(async () => {
                     try {
