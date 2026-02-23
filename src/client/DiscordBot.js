@@ -24,9 +24,9 @@ class DiscordBot extends Client {
     login_attempts = 0;
     login_timestamp = 0;
     statusMessages = [
-        { name: 'Status 1', type: 4 },
-        { name: 'Status 2', type: 4 },
-        { name: 'Status 3', type: 4 }
+        { name: 'Le saviez-vous, Paf a 1000x notre culture', type: 4 },
+        { name: 'Mathys se pignouf chaque matin', type: 4 },
+        { name: 'Pourquoi ce fdp d\'eliot se prends pour un latino ?', type: 4 }
     ];
 
     commands_handler = new CommandsHandler(this);
