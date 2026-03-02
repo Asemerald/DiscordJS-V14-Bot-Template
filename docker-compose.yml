@@ -9,3 +9,5 @@ services:
       - ./data.yml:/usr/src/app/database.yml
     environment:
       - NODE_ENV=production
+    env_file:
+      - .env
