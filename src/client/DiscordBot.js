@@ -6,6 +6,7 @@ const CommandsListener = require("./handler/CommandsListener");
 const ComponentsHandler = require("./handler/ComponentsHandler");
 const ComponentsListener = require("./handler/ComponentsListener");
 const EventsHandler = require("./handler/EventsHandler");
+const MuteManager = require("./MuteManager");
 const { QuickYAML } = require('quick-yaml.db');
 
 class DiscordBot extends Client {
@@ -32,6 +33,7 @@ class DiscordBot extends Client {
     commands_handler = new CommandsHandler(this);
     components_handler = new ComponentsHandler(this);
     events_handler = new EventsHandler(this);
+    mute_manager = new MuteManager(this);
     database = new QuickYAML(config.database.path);
 
     constructor() {
@@ -94,6 +96,7 @@ class DiscordBot extends Client {
             this.commands_handler.load();
             this.components_handler.load();
             this.events_handler.load();
+            await this.mute_manager.init();
             this.startStatusRotation();
 
             warn('Attempting to register application commands... (this might take a while!)');

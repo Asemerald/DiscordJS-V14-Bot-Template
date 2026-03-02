@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
+const { ChatInputCommandInteraction, EmbedBuilder, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
 
@@ -28,8 +28,7 @@ module.exports = new ApplicationCommand({
         const entries = Object.entries(muteCounts);
         if (!entries.length) {
             return interaction.reply({
-                content: 'Personne n’a encore été muté.',
-                ephemeral: false
+                content: 'Personne n’a encore été muté.'
             });
         }
 

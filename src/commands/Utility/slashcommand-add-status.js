@@ -1,6 +1,7 @@
 const { ChatInputCommandInteraction } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
+const { Message, MessageFlags } = require("discord.js");
 
 module.exports = new ApplicationCommand({
     command: {
@@ -31,7 +32,7 @@ module.exports = new ApplicationCommand({
         if (!statusText.length) {
             return interaction.reply({
                 content: 'Le statut ne peut pas être vide.',
-                ephemeral: true
+                flags : MessageFlags.Ephemeral
             });
         }
 
@@ -53,7 +54,7 @@ module.exports = new ApplicationCommand({
 
         return interaction.reply({
             content: `Nouveau statut ajouté : \`${statusText}\``,
-            ephemeral: true
+            flags : MessageFlags.Ephemeral
         });
     }
 }).toJSON();
