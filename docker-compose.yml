@@ -6,7 +6,7 @@ services:
     container_name: discord-bot
     restart: unless-stopped
     volumes:
-      - ./data.yml:/usr/src/app/database.yml
+      - ./database.yml:/usr/src/app/database.yml
     environment:
       - NODE_ENV=production
     env_file:
