@@ -35,7 +35,7 @@ module.exports = new ApplicationCommand({
         }
         const outcome = Math.random() < 0.5 ? 'gagné' : 'perdu';
         return interaction.reply({
-            content: `${interaction.user} a ${outcome} la bagarre contre ${targetUser}!`
+            content: `${interaction.user} a **${outcome}** la bagarre contre ${targetUser}!, ${outcome === 'gagné' ? 'Il a un plus gros chibre!' : 'SAh, c\'était une haagrah.'}`
         });
     }
 }).toJSON();
