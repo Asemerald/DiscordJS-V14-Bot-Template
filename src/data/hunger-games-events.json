@@ -1,0 +1,60 @@
+{
+  "effects": {
+    "none": "Event only writes story text",
+    "kill_target": "Actor kills target",
+    "kill_actor": "Actor dies from the event"
+  },
+  "inventoryFields": {
+    "givesItem": "Item added to actor inventory after event",
+    "requiresItems": "Array of items the actor must have",
+    "consumesItem": "Item removed from actor inventory after use",
+    "weight": "Higher = more likely to be picked (default 1)"
+  },
+  "events": [
+
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"machette","weight":2,"template":"{actor} fouille un campement abandonne et trouve une machette"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"machette","weight":1,"template":"{actor} arrache une machette plantee dans un arbre"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"arbalete","weight":2,"template":"{actor} decouvre une arbalete cachee sous des feuilles"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"arbalete","weight":1,"template":"{actor} recupere une arbalete sur un cadavre"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"couteau","weight":2,"template":"{actor} ramasse un couteau de chasse rouille"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"lance","weight":1,"template":"{actor} fabrique une lance avec un baton et une pierre"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"poison","weight":1,"template":"{actor} cueille des baies empoisonnees et les garde pour plus tard"},
+    {"type":"loot","effect":"none","requiresTarget":false,"givesItem":"piege","weight":1,"template":"{actor} pose un piege pres du ruisseau"},
+
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":3,"template":"{actor} pousse {target} du haut d'une falaise"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":3,"template":"{actor} noie {target} dans le ruisseau"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":2,"template":"{actor} etrangle {target} pendant son sommeil"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":2,"template":"{actor} fracasse le crane de {target} avec une pierre"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":2,"template":"{actor} tend une embuscade a {target} et l'acheve a mains nues"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"weight":1,"template":"{actor} et {target} se battent au bord du ravin. {target} tombe dans le vide"},
+
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["machette"],"weight":3,"template":"{actor} tranche la gorge de {target} avec sa machette"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["machette"],"weight":2,"template":"{actor} surprend {target} et lui plante la machette dans le dos"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["couteau"],"weight":3,"template":"{actor} poignarde {target} avec son couteau"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["couteau"],"weight":2,"template":"{actor} lance son couteau en plein dans le front de {target}","consumesItem":"couteau"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["lance"],"weight":3,"template":"{actor} empale {target} avec sa lance"},
+    {"type":"ranged","effect":"kill_target","requiresTarget":true,"requiresItems":["arbalete"],"weight":3,"template":"{actor} tire un carreau d'arbalete en plein coeur de {target}"},
+    {"type":"ranged","effect":"kill_target","requiresTarget":true,"requiresItems":["arbalete"],"weight":2,"template":"{actor} snipe {target} depuis un arbre avec son arbalete"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["poison"],"consumesItem":"poison","weight":2,"template":"{actor} empoisonne la nourriture de {target}. {target} meurt dans d'atroces souffrances"},
+    {"type":"combat","effect":"kill_target","requiresTarget":true,"requiresItems":["piege"],"consumesItem":"piege","weight":2,"template":"{target} tombe dans le piege de {actor} et se brise la nuque"},
+
+    {"type":"accident","effect":"kill_actor","requiresTarget":false,"weight":1,"template":"{actor} mange des baies toxiques et meurt empoisonne"},
+    {"type":"accident","effect":"kill_actor","requiresTarget":false,"weight":1,"template":"{actor} se fait mordre par un serpent et succombe au venin"},
+    {"type":"accident","effect":"kill_actor","requiresTarget":false,"weight":1,"template":"{actor} glisse dans la riviere et se fracasse le crane sur un rocher"},
+    {"type":"accident","effect":"kill_actor","requiresTarget":false,"weight":1,"template":"{actor} s'effondre de deshydratation"},
+
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":2,"template":"{actor} cherche de l'eau pres du ruisseau"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":2,"template":"{actor} allume un feu pour la nuit"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":1,"template":"{actor} grimpe dans un arbre pour dormir en securite"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":1,"template":"{actor} entend un canon au loin"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":1,"template":"{actor} mange des insectes pour survivre"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":1,"template":"{actor} se cache dans une grotte"},
+    {"type":"flavor","effect":"none","requiresTarget":false,"weight":1,"template":"{actor} se soigne avec des plantes medicinales"},
+    {"type":"encounter","effect":"none","requiresTarget":true,"weight":2,"template":"{actor} croise {target} mais ils decidient de s'ignorer"},
+    {"type":"encounter","effect":"none","requiresTarget":true,"weight":1,"template":"{actor} et {target} forment une alliance temporaire"},
+    {"type":"encounter","effect":"none","requiresTarget":true,"weight":1,"template":"{actor} vole la nourriture de {target} pendant la nuit"},
+    {"type":"encounter","effect":"none","requiresTarget":true,"weight":1,"template":"{actor} observe {target} de loin, caché dans les buissons"},
+    {"type":"taunt","effect":"none","requiresTarget":true,"weight":1,"template":"{actor} provoque {target} mais fuit comme un lache"},
+    {"type":"taunt","effect":"none","requiresTarget":true,"weight":1,"template":"{actor} crie le nom de {target} pour le faire flipper"}
+  ]
+}
