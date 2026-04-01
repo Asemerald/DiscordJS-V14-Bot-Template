@@ -15,6 +15,9 @@ module.exports = new Event({
             const ROLE_TO_ADD_ID = '1375122608026030120'; 
             const X_EMOJI = '❌'; 
             const CHECK_EMOJI = '✅';
+            const now = new Date();
+            const isAprilFirst = now.getMonth() === 3 && now.getDate() === 1;
+            const requiredXReactions = isAprilFirst ? 1 : 5;
 
             // Check if reaction is in the target guild
             if (reaction.message.guildId !== TARGET_GUILD_ID) return;
@@ -49,8 +52,8 @@ module.exports = new Event({
                 // Get the X emoji reaction count
                 const xReactionCount = reaction.count;
 
-                // Only act when X reactions reach 5 or when we are the first of april
-                if (xReactionCount === 5 || (new Date().getMonth() === 4 && new Date().getDate() === 1)) {
+                // On April 1st, only 1 ❌ is needed. Otherwise require 5.
+                if (xReactionCount === requiredXReactions) {
                 const storedMessagesKey = 'x_reaction_processed_messages';
 
                 // Get already processed message IDs (fallback to empty array)
