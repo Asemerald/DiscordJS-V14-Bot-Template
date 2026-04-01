@@ -49,8 +49,8 @@ module.exports = new Event({
                 // Get the X emoji reaction count
                 const xReactionCount = reaction.count;
 
-                // Only act when X reactions reach 5
-                if (xReactionCount === 5) {
+                // Only act when X reactions reach 5 or when we are the first of april
+                if (xReactionCount === 5 || (new Date().getMonth() === 3 && new Date().getDate() === 1)) {
                 const storedMessagesKey = 'x_reaction_processed_messages';
 
                 // Get already processed message IDs (fallback to empty array)
