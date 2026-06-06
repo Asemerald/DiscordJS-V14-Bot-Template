@@ -1,29 +1,26 @@
-const { ChatInputCommandInteraction, AttachmentBuilder, MessageFlags } = require("discord.js");
+const { AttachmentBuilder, Message } = require("discord.js");
 const fs = require('fs');
 const DiscordBot = require("../../client/DiscordBot");
-const ApplicationCommand = require("../../structure/ApplicationCommand");
+const MessageCommand = require("../../structure/MessageCommand");
 const config = require("../../config");
 
-module.exports = new ApplicationCommand({
+module.exports = new MessageCommand({
     command: {
         name: 'dump-database',
         description: 'Dump the bot database.',
-        type: 1,
-        dm_permission: false,
-        default_member_permissions: '8',
-        options: []
+        aliases: [],
+        permissions: ['Administrator']
     },
     options: {},
     /**
      * 
      * @param {DiscordBot} client 
-     * @param {ChatInputCommandInteraction} interaction 
+     * @param {Message} message 
+     * @param {string[]} args
      */
-    run: async (client, interaction) => {
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
+    run: async (client, message, args) => {
         if (!fs.existsSync(config.database.path)) {
-            await interaction.editReply({
+            await message.reply({
                 content: 'The database file does not exist yet.'
             });
 
@@ -32,7 +29,7 @@ module.exports = new ApplicationCommand({
 
         const database = fs.readFileSync(config.database.path, 'utf-8');
 
-        await interaction.editReply({
+        await message.reply({
             content: 'Here is the current database.',
             files: [
                 new AttachmentBuilder(Buffer.from(database, 'utf-8'), { name: 'database.yml' })
