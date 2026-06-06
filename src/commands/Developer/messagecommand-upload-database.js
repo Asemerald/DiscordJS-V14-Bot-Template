@@ -1,65 +1,84 @@
-const { Message } = require("discord.js");
-const fs = require('fs');
+const { ChatInputCommandInteraction, ApplicationCommandOptionType, MessageFlags } = require("discord.js");
+const fs = require("fs");
 const DiscordBot = require("../../client/DiscordBot");
-const MessageCommand = require("../../structure/MessageCommand");
+const ApplicationCommand = require("../../structure/ApplicationCommand");
 const config = require("../../config");
-const { QuickYAML } = require('quick-yaml.db');
+const { QuickYAML } = require("quick-yaml.db");
 
-const getDatabaseAttachment = (message, args) => {
-    const attachment = message.attachments.first();
-
-    if (attachment) {
-        return attachment;
-    }
-
-    if (args[0]) {
-        return { url: args[0], name: 'database.yml' };
-    }
-
-    return null;
-};
-
-module.exports = new MessageCommand({
+module.exports = new ApplicationCommand({
     command: {
-        name: 'upload-database',
-        description: 'Upload a new bot database.',
-        aliases: [],
-        permissions: ['Administrator']
+        name: "upload-database",
+        description: "Upload a new bot database.",
+        type: 1,
+        dm_permission: false,
+        default_member_permissions: "8",
+        options: [{
+            name: "database",
+            description: "The database file to upload.",
+            type: ApplicationCommandOptionType.Attachment,
+            required: true
+        }]
     },
+
     options: {},
+
     /**
-     * 
-     * @param {DiscordBot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {DiscordBot} client
+     * @param {ChatInputCommandInteraction} interaction
      */
-    run: async (client, message, args) => {
-        const attachment = getDatabaseAttachment(message, args);
-
-        if (!attachment) {
-            await message.reply({
-                content: 'You must attach a database file or provide a direct file URL.'
-            });
-
-            return;
-        }
-
-        const response = await fetch(attachment.url);
-
-        if (!response.ok) {
-            await message.reply({
-                content: 'Unable to download the provided database file.'
-            });
-
-            return;
-        }
-
-        const buffer = Buffer.from(await response.arrayBuffer());
-        fs.writeFileSync(config.database.path, buffer);
-        client.database = new QuickYAML(config.database.path);
-
-        await message.reply({
-            content: 'Successfully uploaded the new database.'
+    run: async (client, interaction) => {
+        await interaction.deferReply({
+            flags: MessageFlags.Ephemeral
         });
+
+        try {
+            const attachment = interaction.options.getAttachment("database", true);
+
+            console.log("=== DATABASE UPLOAD ===");
+            console.log("Attachment URL:", attachment.url);
+            console.log("Database path:", config.database.path);
+
+            const response = await fetch(attachment.url);
+
+            if (!response.ok) {
+                return interaction.editReply({
+                    content: `Download failed (${response.status})`
+                });
+            }
+
+            const buffer = Buffer.from(await response.arrayBuffer());
+
+            console.log("Downloaded bytes:", buffer.length);
+
+            fs.writeFileSync(config.database.path, buffer);
+
+            console.log(
+                "Written bytes:",
+                fs.statSync(config.database.path).size
+            );
+
+            console.log(
+                "File content after write:\n",
+                fs.readFileSync(config.database.path, "utf8")
+            );
+
+            client.database = new QuickYAML(config.database.path);
+
+            console.log(
+                "Database reloaded:",
+                client.database.all()
+            );
+
+            await interaction.editReply({
+                content: "Successfully uploaded the new database."
+            });
+
+        } catch (err) {
+            console.error(err);
+
+            await interaction.editReply({
+                content: `Upload failed: ${err.message}`
+            });
+        }
     }
 }).toJSON();
