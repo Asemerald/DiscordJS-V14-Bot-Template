@@ -24,6 +24,8 @@
     "discord.js": "^14.25.1",
     "discordjs-v14-bot-template": "file:",
     "dotenv": "^16.4.5",
-    "quick-yaml.db": "^1.2.2"
+    "express": "^5.2.1",
+    "quick-yaml.db": "^1.2.2",
+    "rss-parser": "^3.13.0"
   }
 }
